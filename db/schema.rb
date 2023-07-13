@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_13_082139) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_13_093931) do
+  create_table "account_histories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "credit_rating"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_histories_on_account_id"
+  end
+
+  create_table "accounts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "account_number"
+    t.bigint "supplier_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["supplier_id"], name: "index_accounts_on_supplier_id"
+  end
+
   create_table "authors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -31,6 +47,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_082139) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "suppliers", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "user_groups", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "group_id", null: false
@@ -46,6 +68,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_082139) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "account_histories", "accounts"
+  add_foreign_key "accounts", "suppliers"
   add_foreign_key "books", "authors"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
