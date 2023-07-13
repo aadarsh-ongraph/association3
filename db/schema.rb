@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_13_093931) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_13_110501) do
   create_table "account_histories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.integer "credit_rating"
     t.bigint "account_id", null: false
@@ -25,6 +25,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_093931) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["supplier_id"], name: "index_accounts_on_supplier_id"
+  end
+
+  create_table "assemblies", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "assembly_parts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "assembly_id", null: false
+    t.bigint "part_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assembly_id"], name: "index_assembly_parts_on_assembly_id"
+    t.index ["part_id"], name: "index_assembly_parts_on_part_id"
   end
 
   create_table "authors", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -43,6 +58,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_093931) do
 
   create_table "groups", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "parts", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "part_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -70,6 +91,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_13_093931) do
 
   add_foreign_key "account_histories", "accounts"
   add_foreign_key "accounts", "suppliers"
+  add_foreign_key "assembly_parts", "assemblies"
+  add_foreign_key "assembly_parts", "parts"
   add_foreign_key "books", "authors"
   add_foreign_key "user_groups", "groups"
   add_foreign_key "user_groups", "users"
